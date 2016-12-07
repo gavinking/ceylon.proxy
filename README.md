@@ -6,8 +6,12 @@ evaluation to be attached to a Ceylon object.
 
 This library works on both JVM and JavaScript VMs.
 
-Note that for the `proxy()` function to work correctly on
-the JVM, [EE compiler mode][] must be enabled.
+## Requirements
+
+Ceylon 1.3.2 is required.
+
+For the `proxy()` function to work correctly on the JVM, 
+[EE compiler mode][] must be enabled.
 
 [EE compiler mode]: https://ceylon-lang.org/documentation/1.3/reference/interoperability/ee-mode/
 
