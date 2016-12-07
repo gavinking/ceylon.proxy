@@ -1,0 +1,14 @@
+
+[compiler]
+source=source
+resource=resource
+suppresswarning=ceylonNamespace
+
+[compiler.jvm]
+ee=true
+
+[defaults]
+offline=false
+flatclasspath=false
+autoexportmavendependencies=false
+fullyexportmavendependencies=false
