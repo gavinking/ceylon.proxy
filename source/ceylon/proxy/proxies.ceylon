@@ -25,8 +25,8 @@ Instance proxy<Instance>
         given Instance satisfies Object;
 
 shared native("jvm")
-Instance proxy<Instance>(Instance instance,
-                        Interceptor<Instance> handler)
+Instance proxy<Instance>
+    (Instance instance, Interceptor<Instance> handler)
         given Instance satisfies Object {
 
     import java.lang {
@@ -55,20 +55,20 @@ Instance proxy<Instance>(Instance instance,
     }
 
     function methodHandler(Object proxy, Method method, ObjectArray<Object?> arguments)
-            => handler.call<Object?,Object?[]> {
+            => handler.call {
                 target = instance;
                 name = method.name;
                 args = [*arguments];
-                Object? method(Object?[] arguments)
-                        => method.invoke(instance, *arguments);
+                method(Object?[] arguments)
+                        => method.invoke(instance, *arguments) of Object?;
             };
 
     function attributeHandler(Object proxy, Method method, ObjectArray<Object?> arguments)
-            => handler.get<Object?> {
+            => handler.get {
                 target = instance;
                 name = let (name = method.name.removeInitial("get"))
                         name[0..0].lowercased + name[1...];
-                attribute = method.invoke(instance);
+                attribute = method.invoke(instance) of Object?;
             };
 
     return ByteBuddy()
@@ -85,7 +85,8 @@ Instance proxy<Instance>(Instance instance,
 }
 
 shared native("js")
-Instance proxy<Instance>(Instance instance, Interceptor<Instance> handler)
+Instance proxy<Instance>
+    (Instance instance, Interceptor<Instance> handler)
         given Instance satisfies Object {
 
     import ceylon.collection {
