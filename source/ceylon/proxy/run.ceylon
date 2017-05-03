@@ -1,7 +1,10 @@
 
-class Person(shared String name,
-             shared void hello(String name, Integer count)
-                    => print("Hola ``name``! ".repeat(count))) {}
+class Person(shared String name) {
+    shared void hello(String name, Integer count) {
+        value message = "Hola ``name``! ";
+        print(message.repeat(count));
+    }
+}
 
 shared void run() {
     value person = Person("Gavin");
