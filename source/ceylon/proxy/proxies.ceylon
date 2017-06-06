@@ -30,7 +30,8 @@ Instance proxy<Instance>
         given Instance satisfies Object {
 
     import java.lang {
-        ObjectArray
+        ObjectArray,
+        Types
     }
     import java.lang.reflect {
         Method
@@ -38,17 +39,18 @@ Instance proxy<Instance>
     import net.bytebuddy {
         ByteBuddy
     }
-    import net.bytebuddy.implementation {
-        InvocationHandlerAdapter
-    }
     import net.bytebuddy.matcher {
-        ElementMatchers { ... }
+        ElementMatchers {
+            ...
+        }
     }
     import net.bytebuddy.description.method {
         MethodDescription
     }
-    import ceylon.interop.java {
-        javaClassFromInstance
+    import net.bytebuddy.implementation {
+        InvocationHandlerAdapter {
+            invocationHandler=\iof
+        }
     }
     import ceylon.language.meta {
         type
@@ -74,11 +76,11 @@ Instance proxy<Instance>
     return ByteBuddy()
         .subclass(type(instance))
         .method(not(isGetter<MethodDescription>()))
-        .intercept(InvocationHandlerAdapter.\iof(methodHandler))
+        .intercept(invocationHandler(methodHandler))
         .method(isGetter<MethodDescription>())
-        .intercept(InvocationHandlerAdapter.\iof(attributeHandler))
+        .intercept(invocationHandler(attributeHandler))
         .make()
-        .load(javaClassFromInstance(instance).classLoader)
+        .load(Types.classForInstance(instance).classLoader)
         .loaded
         .newInstance();
 
